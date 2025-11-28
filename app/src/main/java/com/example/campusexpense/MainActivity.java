@@ -48,14 +48,10 @@ public class MainActivity extends AppCompatActivity {
                     int itemId = item.getItemId();
                     if (itemId == R.id.nav_home) {
                         selectedFragment = new HomeFragment();
-                    } else if (itemId == R.id.nav_transaction) {
-                        selectedFragment = new TransactionFragment();
                     } else if (itemId == R.id.nav_account) {
                         selectedFragment = new AccountFragment();
                     } else if (itemId == R.id.nav_budget) {
                         selectedFragment = new BudgetFragment();
-                    } else if (itemId == R.id.nav_add) {
-                        selectedFragment = new AddFragment();
                     }
                     if (selectedFragment != null) {
                         getSupportFragmentManager().beginTransaction()
