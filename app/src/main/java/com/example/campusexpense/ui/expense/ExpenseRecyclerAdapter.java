@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.campusexpense.R;
 import com.example.campusexpense.data.model.Expense;
-import com.example.campusexpense.R;
 import com.example.campusexpense.data.model.Category;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -75,9 +74,8 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             return items;
         }
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
-        SimpleDateFormat todayFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+        SimpleDateFormat todayFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
         String currentDateHeader = null;
         String today = todayFormat.format(new Date());
@@ -132,8 +130,8 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         } else {
             ExpenseViewHolder expenseHolder = (ExpenseViewHolder) holder;
             Expense expense = item.expense;
-            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.getDefault());
-            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("en", "US"));
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.US);
 
             String categoryName = getCategoryName(expense.getCategoryId());
             expenseHolder.categoryNameText.setText(categoryName);

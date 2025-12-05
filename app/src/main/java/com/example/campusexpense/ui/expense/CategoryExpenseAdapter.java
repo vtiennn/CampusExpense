@@ -61,32 +61,30 @@ public class CategoryExpenseAdapter extends RecyclerView.Adapter<CategoryExpense
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CategoryExpenseItem item = categoryExpenseList.get(position);
-        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.getDefault());
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("en", "US"));
 
         holder.categoryNameText.setText(item.categoryName);
         holder.expenseAmountText.setText(currencyFormat.format(item.totalExpense));
-        String transactionText = context != null ?
-                context.getString(R.string.transactions) : "transactions";
-        holder.expenseCountText.setText(item.expenseCount + " " + transactionText);
+        holder.expenseCountText.setText(context.getResources().getQuantityString(R.plurals.transaction_count, item.expenseCount, item.expenseCount));
 
-        if (item.budget != null) {
+        if (item.budget != null && item.budget.getAmount() > 0) {
             holder.budgetLayout.setVisibility(View.VISIBLE);
             holder.budgetAmountText.setText(currencyFormat.format(item.budget.getAmount()));
 
             double percentage = (item.totalExpense / item.budget.getAmount()) * 100;
-            int progress = (int) Math.min(Math.max(percentage, 0), 100);
+            int progress = (int) Math.min(percentage, 100); // Cap progress at 100
             holder.progressBar.setProgress(progress);
 
+            holder.progressText.setText(String.format(Locale.US, "%.0f%%", Math.min(percentage, 100.0)));
+
             if (percentage > 100) {
-                holder.progressBar.setProgressTintList(android.content.res.ColorStateList.valueOf(0xFFD32F2F));
-                String overText = context != null ?
-                        context.getString(R.string.over_budget, percentage - 100) :
-                        String.format(Locale.getDefault(), "Over %.0f%%", percentage - 100);
-                holder.progressText.setText(overText);
+                holder.progressBar.setProgressTintList(android.content.res.ColorStateList.valueOf(0xFFD32F2F)); // Red
                 holder.progressText.setTextColor(0xFFD32F2F);
+            } else if (percentage > 80) {
+                holder.progressBar.setProgressTintList(android.content.res.ColorStateList.valueOf(0xFFFF9800)); // Orange
+                holder.progressText.setTextColor(0xFF757575);
             } else {
-                holder.progressBar.setProgressTintList(android.content.res.ColorStateList.valueOf(percentage > 80 ? 0xFFFF9800 : 0xFF4CAF50));
-                holder.progressText.setText(String.format(Locale.getDefault(), "%.0f%%", percentage));
+                holder.progressBar.setProgressTintList(android.content.res.ColorStateList.valueOf(0xFF4CAF50)); // Green
                 holder.progressText.setTextColor(0xFF757575);
             }
         } else {

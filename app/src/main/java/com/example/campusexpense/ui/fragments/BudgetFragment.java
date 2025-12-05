@@ -23,6 +23,7 @@ import com.example.campusexpense.R;
 import com.example.campusexpense.data.database.AppDatabase;
 import com.example.campusexpense.data.database.BudgetDao;
 import com.example.campusexpense.data.database.CategoryDao;
+import com.example.campusexpense.data.database.ExpenseDao;
 import com.example.campusexpense.data.model.Budget;
 import com.example.campusexpense.data.model.Category;
 import com.example.campusexpense.ui.budget.BudgetRecyclerAdapter;
@@ -41,6 +42,7 @@ public class BudgetFragment extends Fragment {
     private List<String> categoryNames;
     private BudgetDao budgetDao;
     private CategoryDao categoryDao;
+    private ExpenseDao expenseDao;
     private TextView emptyView;
     private SharedPreferences sharedPreferences;
     private int currentUserId;
@@ -57,6 +59,7 @@ public class BudgetFragment extends Fragment {
         AppDatabase database = AppDatabase.getInstance(requireContext());
         budgetDao = database.budgetDao();
         categoryDao = database.categoryDao();
+        expenseDao = database.expenseDao(); // Initialize ExpenseDao
         budgetList = new ArrayList<>();
         categoryList = new ArrayList<>();
         categoryNames = new ArrayList<>();
@@ -64,7 +67,9 @@ public class BudgetFragment extends Fragment {
                 budgetList,
                 categoryNames,
                 this::showEditDialog,
-                this::showDeleteDialog
+                this::showDeleteDialog,
+                expenseDao, // Pass ExpenseDao
+                currentUserId // Pass userId
         );
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(adapter);
@@ -182,7 +187,13 @@ public class BudgetFragment extends Fragment {
 
         Category category = categoryDao.getById(budget.getCategoryId());
         if (category != null) {
-            int categoryIndex = categoryList.indexOf(category);
+            int categoryIndex = -1;
+            for (int i = 0; i < categoryList.size(); i++) {
+                if (categoryList.get(i).getId() == category.getId()) {
+                    categoryIndex = i;
+                    break;
+                }
+            }
             if (categoryIndex >= 0) {
                 categorySpinner.setSelection(categoryIndex);
             }

@@ -45,24 +45,25 @@ public class MainActivity extends AppCompatActivity {
         }
         bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.setOnItemSelectedListener(item -> {
-                    Fragment selectedFragment = null;
-                    int itemId = item.getItemId();
-                    if (itemId == R.id.nav_home) {
-                        selectedFragment = new HomeFragment();
-                    } else if (itemId == R.id.nav_account) {
-                        selectedFragment = new AccountFragment();
-                    } else if (itemId == R.id.nav_budget) {
-                        selectedFragment = new BudgetFragment();
-                    } else if (itemId == R.id.nav_expense) {
-                        selectedFragment = new ExpenseFragment();
-                    }
+            Fragment selectedFragment = null;
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_home) {
+                selectedFragment = new HomeFragment();
+            } else if (itemId == R.id.nav_account) {
+                selectedFragment = new AccountFragment();
+            } else if (itemId == R.id.nav_budget) {
+                selectedFragment = new BudgetFragment();
+            } else if (itemId == R.id.nav_expense) {
+                selectedFragment = new ExpenseFragment();
+            }
+
             if (selectedFragment != null) {
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.fragment_container, selectedFragment)
-                                .commit();
-                    }
-                    return true;
-                    });
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, selectedFragment)
+                        .commit();
+            }
+            return true;
+        });
         bottomNavigation.setSelectedItemId(R.id.nav_home);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

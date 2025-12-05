@@ -37,6 +37,9 @@ public interface ExpenseDao {
     @Query("SELECT SUM(amount) FROM expenses WHERE userId = :userId AND categoryId = :categoryId AND date >= :startDate AND date <= :endDate")
     Double getTotalExpensesByCategoryAndDateRange(int userId, int categoryId, long startDate, long endDate);
 
+    @Query("SELECT SUM(amount) FROM expenses WHERE userId = :userId AND categoryId = :categoryId")
+    Double getSpentAmountByCategoryAndUser(int userId, int categoryId);
+
     @Query("SELECT * FROM expenses WHERE id = :id")
     Expense getExpenseById(int id);
 

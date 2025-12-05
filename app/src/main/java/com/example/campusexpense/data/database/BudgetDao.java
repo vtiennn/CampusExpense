@@ -20,7 +20,7 @@ public interface BudgetDao {
     void delete(Budget budget);
     @Query("SELECT * FROM budgets WHERE userId = :userId ORDER BY createdAt DESC")
     List<Budget> getAllBudgetsByUser(int userId);
-    @Query("SELECT * FROM budgets WHERE id = :userid AND categoryId = :categoryId")
+    @Query("SELECT * FROM budgets WHERE userId = :userid AND categoryId = :categoryId")
     Budget getBudgetByCategoryAndUser(int userid, int categoryId);
     @Query("SELECT * FROM budgets WHERE id = :id")
     Budget getBudgetById(int id);
