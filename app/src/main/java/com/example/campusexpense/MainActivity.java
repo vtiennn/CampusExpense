@@ -16,6 +16,7 @@ import com.example.campusexpense.ui.fragments.AccountFragment;
 import com.example.campusexpense.ui.fragments.AddFragment;
 import com.example.campusexpense.ui.fragments.BudgetFragment;
 import com.example.campusexpense.ui.fragments.CategoryFragment;
+import com.example.campusexpense.ui.fragments.ExpenseFragment;
 import com.example.campusexpense.ui.fragments.HomeFragment;
 import com.example.campusexpense.ui.fragments.TransactionFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -52,8 +53,10 @@ public class MainActivity extends AppCompatActivity {
                         selectedFragment = new AccountFragment();
                     } else if (itemId == R.id.nav_budget) {
                         selectedFragment = new BudgetFragment();
+                    } else if (itemId == R.id.nav_expense) {
+                        selectedFragment = new ExpenseFragment();
                     }
-                    if (selectedFragment != null) {
+            if (selectedFragment != null) {
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_container, selectedFragment)
                                 .commit();
